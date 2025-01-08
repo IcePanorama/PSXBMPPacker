@@ -1,4 +1,5 @@
 #include "bitmap_image.hpp"
+#include "data_pack.hpp"
 
 #include <iostream>
 #include <stdexcept>
@@ -12,6 +13,8 @@ main (void)
     {
       BitmapImage input (input_filename);
       std::cout << input.get_filename () << std::endl;
+      DataPack output (input.get_filename ());
+      std::cout << output.get_filename () << std::endl;
     }
   catch (const std::runtime_error &e)
     {
