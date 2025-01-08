@@ -1,5 +1,5 @@
 /**
- *  PixelData - An array of indicies pointing to clut entries.
+ *  PixelData
  *
  *  See: "TIM: Screen Image Data", pp. 182-6 in 'File Formats' for more
  *  details.
