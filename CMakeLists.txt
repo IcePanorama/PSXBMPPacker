@@ -24,11 +24,17 @@ add_compile_options(
 
 set(SRC_DIR "${PROJECT_SOURCE_DIR}/src")
 set(SRC_FILES
+    "${SRC_DIR}/bitmap_image.cpp"
+    "${SRC_DIR}/color.cpp"
     "${SRC_DIR}/main.cpp"
+    "${SRC_DIR}/utils.cpp"
 )
 
 set(INCL_DIR "${PROJECT_SOURCE_DIR}/include")
 set(INCL_FILES
+    "${INCL_DIR}/bitmap_image.hpp"
+    "${INCL_DIR}/color.hpp"
+    "${INCL_DIR}/utils.hpp"
 )
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR})
