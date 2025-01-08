@@ -27,7 +27,8 @@
  *  ---------------------------------------------------------------------------
  *  |    0x0 |     1 |   Entry ID |                                           |
  *  ---------------------------------------------------------------------------
- *  |    0x1 |     4 | Entry size | In bytes.                                 |
+ *  |    0x1 |     4 | Entry size | In bytes, of the remainder of this entry  |
+ *  |        |       |            | (excluding this value).                   |
  *  ---------------------------------------------------------------------------
  *  |    0x4 |     ? |       Data | Exact details differs. See                |
  *  |        |       |            | ColorLookupTable or PixelData for more    |
