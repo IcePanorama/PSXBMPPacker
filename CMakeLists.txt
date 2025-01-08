@@ -53,6 +53,7 @@ find_program(VALGRIND_EXECUTABLE NAMES valgrind)
 if(VALGRIND_EXECUTABLE)
     add_custom_target(test
         COMMAND ${VALGRIND_EXECUTABLE} --leak-check=yes ./${PROJECT_NAME}
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
         COMMENT "Running valgrind leak check on executable."
     )
 

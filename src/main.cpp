@@ -3,6 +3,9 @@
 int
 main (void)
 {
-  std::cout << "Hello world!\n";
+  constexpr const char *input_filename = "pipes.bmp";
+
+  std::cout << input_filename << std::endl;
+
   return 0;
 }
