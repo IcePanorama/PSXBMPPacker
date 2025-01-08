@@ -1,6 +1,9 @@
 /**
  *  ColorLookupTable
  *
+ *  See: "TIM: Screen Image Data", pp. 182-6 in 'File Formats' for more
+ *  details.
+ *
  *  Clut entry:
  *  ---------------------------------------------------------------------------
  *  | Offset | Size (*) |     Value    |                 Notes                |
