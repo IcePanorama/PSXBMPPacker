@@ -19,6 +19,8 @@ class PixelData
 
 public:
   PixelData (const std::vector<std::vector<uint8_t> > &data) noexcept;
+
+  void export_data (std::ofstream &fptr);
 };
 
 #endif /* _PIXEL_DATA_HPP_ */
