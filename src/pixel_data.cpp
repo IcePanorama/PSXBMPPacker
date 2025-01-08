@@ -1,7 +1,8 @@
 #include "pixel_data.hpp"
 
-PixelData::PixelData (const std::vector<std::vector<uint8_t> > &data)
-    : data_ (data), width (this->calculate_width ()),
+PixelData::PixelData (const std::vector<std::vector<uint8_t> > &data) noexcept
+    : data_ (data),
+      width (this->calculate_width ()),
       height (this->calculate_height ())
 {
 }

@@ -1,8 +1,9 @@
 #include "color_lookup_table.hpp"
 
 ColorLookupTable::ColorLookupTable (
-    const std::unordered_map<Color, uint8_t, ColorHasher_s> &data)
-    : data_ (data), width (this->calculate_width ()),
+    const std::unordered_map<Color, uint8_t, ColorHasher_s> &data) noexcept
+    : data_ (data),
+      width (this->calculate_width ()),
       height (this->calculate_height ())
 {
 }

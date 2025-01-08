@@ -17,7 +17,7 @@ class ColorLookupTable
 
 public:
   ColorLookupTable (
-      const std::unordered_map<Color, uint8_t, ColorHasher_s> &data);
+      const std::unordered_map<Color, uint8_t, ColorHasher_s> &data) noexcept;
 };
 
 #endif /* _COLOR_LOOKUP_TABLE_HPP_ */
