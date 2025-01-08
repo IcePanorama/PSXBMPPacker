@@ -1,4 +1,5 @@
 #include "data_pack.hpp"
+#include "pixel_data.hpp"
 
 #include <algorithm>
 #include <format>
@@ -6,8 +7,10 @@
 
 DataPack::DataPack (
     const std::string &filename,
-    const std::unordered_map<Color, uint8_t, ColorHasher_s> &clut_data)
-    : filename_ (this->format_filename (filename)), file (), clut (clut_data)
+    const std::unordered_map<Color, uint8_t, ColorHasher_s> &clut_data,
+    const std::vector<std::vector<uint8_t> > &pixel_data)
+    : filename_ (this->format_filename (filename)), file (), clut (clut_data),
+      pixel_data_ (pixel_data)
 {
   file.open (this->filename_, std::ios::binary);
   if (!file.is_open ())

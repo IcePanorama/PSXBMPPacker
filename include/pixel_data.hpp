@@ -6,7 +6,7 @@
 
 class PixelData
 {
-  const std::vector<uint8_t> &data_;
+  const std::vector<std::vector<uint8_t> > &data_;
 
   const uint16_t width;
   const uint16_t height;
@@ -15,7 +15,7 @@ class PixelData
   uint16_t calculate_height (void) const noexcept;
 
 public:
-  PixelData (const std::vector<uint8_t> &data);
+  PixelData (const std::vector<std::vector<uint8_t> > &data);
 };
 
 #endif /* _PIXEL_DATA_HPP_ */
