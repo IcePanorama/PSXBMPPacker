@@ -7,6 +7,12 @@
 #include <fstream>
 #include <vector>
 
+/**
+ *  Essentially the same this as the TIM image format used in the Sony
+ *  Playstation's official PsyQ SDK, except without any of the positional
+ *  information, and with support for multiple textures/sprites stored in a
+ *  single pack.
+ */
 class DataPack
 {
   std::string filename_;

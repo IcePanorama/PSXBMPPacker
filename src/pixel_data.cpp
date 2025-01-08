@@ -7,14 +7,21 @@ PixelData::PixelData (const std::vector<std::vector<uint8_t> > &data) noexcept
 {
 }
 
+/**
+ *  Currently assumes that all images are 4 bpp.
+ *  TODO: expand support for other types of images.
+ */
 uint16_t
 PixelData::calculate_width (void) const noexcept
 {
-  return 0;
+  if (this->data_.size () == 0 || this->data_.at (0).size () == 0)
+    return 0;
+
+  return (this->data_.size () >> 2);
 }
 
 uint16_t
 PixelData::calculate_height (void) const noexcept
 {
-  return 0;
+  return this->data_.size ();
 }
