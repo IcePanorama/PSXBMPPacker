@@ -52,17 +52,11 @@
  */
 class DataPack
 {
-  enum class FileID
-  {
-    FID_SPRITE_TEXTURE_DATA,
-    FID_NUM_FILE_IDS
-  };
-
   std::string filename_;
   std::ofstream file;
 
-  FileID file_id;
   uint16_t num_entries;
+  uint8_t entry_id_;
 
   ColorLookupTable clut;
   PixelData pixel_data_;
@@ -81,7 +75,8 @@ public:
 
   DataPack (const std::string &filename,
             const std::unordered_map<Color, uint8_t, ColorHasher_s> &clut_data,
-            const std::vector<std::vector<uint8_t> > &pixel_data);
+            const std::vector<std::vector<uint8_t> > &pixel_data,
+            uint8_t entry_id = 0);
   std::string get_filename (void) const noexcept;
 };
 

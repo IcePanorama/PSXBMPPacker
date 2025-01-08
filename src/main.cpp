@@ -20,7 +20,8 @@ main (void)
     {
       BitmapImage input (input_filename);
       DataPack output (input.get_filename (), input.get_color_table (),
-                       input.get_pixel_array ());
+                       input.get_pixel_array (),
+                       DataPack::entity_ids.at ("PIPE_TEXTURE"));
       std::cout << output.get_filename () << std::endl;
     }
   catch (const std::runtime_error &e)

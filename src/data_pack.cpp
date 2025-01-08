@@ -11,10 +11,9 @@ std::unordered_map<std::string, uint8_t> DataPack::entity_ids;
 DataPack::DataPack (
     const std::string &filename,
     const std::unordered_map<Color, uint8_t, ColorHasher_s> &clut_data,
-    const std::vector<std::vector<uint8_t> > &pixel_data)
-    : filename_ (this->format_filename (filename)), file (),
-      file_id (FileID::FID_SPRITE_TEXTURE_DATA), num_entries (1),
-      clut (clut_data), pixel_data_ (pixel_data)
+    const std::vector<std::vector<uint8_t> > &pixel_data, uint8_t entry_id)
+    : filename_ (this->format_filename (filename)), file (), num_entries (1),
+      entry_id_ (entry_id), clut (clut_data), pixel_data_ (pixel_data)
 {
   file.open (this->filename_, std::ios::binary);
   if (!file.is_open ())
