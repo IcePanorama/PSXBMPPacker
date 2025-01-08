@@ -1,7 +1,6 @@
 #include "utils.hpp"
 
 #include <array>
-#include <cstdint>
 #include <stdexcept>
 
 uint32_t
@@ -26,4 +25,17 @@ read_color_from_file (std::ifstream &f)
     throw std::runtime_error ("Error reading color from file.");
 
   return Color (bytes.at (2), bytes.at (1), bytes.at (0));
+}
+
+void
+write_int16_to_file (std::ofstream &f, uint16_t x)
+{
+  const uint8_t LO = x & 0xFF;
+  const uint8_t HI = (x & 0xFF00) >> 8;
+
+  f.write (reinterpret_cast<const char *> (&LO), sizeof (uint8_t));
+  f.write (reinterpret_cast<const char *> (&HI), sizeof (uint8_t));
+
+  if (f.fail ())
+    throw std::runtime_error ("ERROR: Error writing int16 to file.");
 }

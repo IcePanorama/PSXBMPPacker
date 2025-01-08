@@ -1,5 +1,6 @@
 #include "data_pack.hpp"
 #include "pixel_data.hpp"
+#include "utils.hpp"
 
 #include <algorithm>
 #include <format>
@@ -9,13 +10,16 @@ DataPack::DataPack (
     const std::string &filename,
     const std::unordered_map<Color, uint8_t, ColorHasher_s> &clut_data,
     const std::vector<std::vector<uint8_t> > &pixel_data)
-    : filename_ (this->format_filename (filename)), file (), clut (clut_data),
-      pixel_data_ (pixel_data)
+    : filename_ (this->format_filename (filename)), file (),
+      file_id (FileID::FID_SPRITE_TEXTURE_DATA), num_entries (1),
+      clut (clut_data), pixel_data_ (pixel_data)
 {
   file.open (this->filename_, std::ios::binary);
   if (!file.is_open ())
     throw std::runtime_error (std::format (
         "ERROR: Error opening output file, {}.\n", this->filename_));
+
+  this->export_file ();
 }
 
 std::string
@@ -40,4 +44,17 @@ std::string
 DataPack::get_filename (void) const noexcept
 {
   return this->filename_;
+}
+
+void
+DataPack::export_file (void)
+{
+  this->export_header ();
+}
+
+void
+DataPack::export_header (void)
+{
+  write_int16_to_file (this->file, static_cast<uint16_t> (this->file_id));
+  write_int16_to_file (this->file, static_cast<uint16_t> (this->num_entries));
 }

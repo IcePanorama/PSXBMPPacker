@@ -8,14 +8,14 @@ ColorLookupTable::ColorLookupTable (
 {
 }
 
-//TODO: expand to support more than just 4 bpp images.
+// TODO: expand to support more than just 4 bpp images.
 uint16_t
 ColorLookupTable::calculate_width (void) const noexcept
 {
   return 16;
 }
 
-//TODO: expand to support more than just 4 bpp images.
+// TODO: expand to support more than just 4 bpp images.
 uint16_t
 ColorLookupTable::calculate_height (void) const noexcept
 {
