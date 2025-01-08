@@ -31,15 +31,32 @@ void
 PixelData::export_data (std::ofstream &fptr)
 {
   this->export_header (fptr);
+  this->export_pixel_data (fptr);
 }
 
 void
 PixelData::export_header (std::ofstream &fptr)
 {
-  // each clut entry = uint16_t
-  uint32_t size = (this->width * sizeof (uint16_t)) * this->height + 2 * sizeof (uint16_t);
+  uint32_t size = (this->width * sizeof (uint16_t)) * this->height
+                  + 2 * sizeof (uint16_t);
 
   write_int32_to_file (fptr, size);
   write_int16_to_file (fptr, this->width);
   write_int16_to_file (fptr, this->height);
+}
+
+void
+PixelData::export_pixel_data (std::ofstream &fptr)
+{
+  for (const auto &row : this->data_)
+    {
+      for (size_t i = 0; i + 3 < row.size (); i += 4)
+        {
+          uint16_t value = row.at (i);
+          value |= (row.at (i + 1) << 4);
+          value |= (row.at (i + 2) << 8);
+          value |= (row.at (i + 3) << 12);
+          write_int16_to_file (fptr, value);
+        }
+    }
 }

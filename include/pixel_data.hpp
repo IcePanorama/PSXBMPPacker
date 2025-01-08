@@ -16,6 +16,7 @@ class PixelData
   uint16_t calculate_height (void) const noexcept;
 
   void export_header (std::ofstream &fptr);
+  void export_pixel_data (std::ofstream &fptr);
 
 public:
   PixelData (const std::vector<std::vector<uint8_t> > &data) noexcept;

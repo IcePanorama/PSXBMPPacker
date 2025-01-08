@@ -94,9 +94,7 @@ ColorLookupTable::export_clut_entries (std::ofstream &fptr)
           const uint8_t g = u8_to_u5 (color.get_green_value ());
           const uint8_t b = u8_to_u5 (color.get_blue_value ());
           const uint16_t entry = r | (g << 5) | (b << 10);
-          fptr.write (reinterpret_cast<const char *> (&entry), sizeof (entry));
-          if (fptr.fail ())
-            throw std::runtime_error (ERR_MSG);
+          write_int16_to_file (fptr, entry);
         }
     }
 
