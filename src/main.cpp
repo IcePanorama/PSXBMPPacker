@@ -12,7 +12,6 @@ main (void)
   try
     {
       BitmapImage input (input_filename);
-      std::cout << input.get_filename () << std::endl;
       DataPack output (input.get_filename (), input.get_color_table (),
                        input.get_pixel_array ());
       std::cout << output.get_filename () << std::endl;
