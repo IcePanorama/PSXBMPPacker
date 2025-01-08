@@ -31,10 +31,27 @@ ColorLookupTable::calculate_height (void) const noexcept
 void
 ColorLookupTable::export_data (std::ofstream &fptr)
 {
+  this->export_header (fptr);
+  this->export_clut_entries (fptr);
+}
+
+void
+ColorLookupTable::export_header (std::ofstream &fptr)
+{
+  // each clut entry = uint16_t
+  uint32_t size
+      = (this->width * sizeof (uint16_t)) * this->height + sizeof (uint32_t);
+
+  write_int32_to_file (fptr, size);
+  write_int16_to_file (fptr, this->width);
+  write_int16_to_file (fptr, this->height);
+}
+
+void
+ColorLookupTable::export_clut_entries (std::ofstream &fptr)
+{
   static const Color TRANSPARENCY (0xFF, 0x00, 0xFF);
   constexpr const char *ERR_MSG = "ERROR: Error exporting CLUT entries.";
-
-  this->export_header (fptr);
 
   // Extract key-values from color table
   std::vector<Color> keys;
@@ -86,16 +103,4 @@ ColorLookupTable::export_data (std::ofstream &fptr)
   fptr.seekp (0x2 * (0x10 - cnt), std::ios::cur);
   if (fptr.fail ())
     throw std::runtime_error (ERR_MSG);
-}
-
-void
-ColorLookupTable::export_header (std::ofstream &fptr)
-{
-  // each clut entry = uint16_t
-  uint32_t size
-      = (this->width * sizeof (uint16_t)) * this->height + sizeof (uint32_t);
-
-  write_int32_to_file (fptr, size);
-  write_int16_to_file (fptr, this->width);
-  write_int16_to_file (fptr, this->height);
 }

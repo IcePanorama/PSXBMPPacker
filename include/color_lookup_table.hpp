@@ -17,6 +17,7 @@ class ColorLookupTable
   uint16_t calculate_height (void) const noexcept;
 
   void export_header (std::ofstream &fptr);
+  void export_clut_entries (std::ofstream &fptr);
 
 public:
   ColorLookupTable (
