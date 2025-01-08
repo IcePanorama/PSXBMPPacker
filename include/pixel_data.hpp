@@ -2,6 +2,7 @@
 #define _PIXEL_DATA_HPP_
 
 #include <cstdint>
+#include <fstream>
 #include <vector>
 
 class PixelData
@@ -13,6 +14,8 @@ class PixelData
 
   uint16_t calculate_width (void) const noexcept;
   uint16_t calculate_height (void) const noexcept;
+
+  void export_header (std::ofstream &fptr);
 
 public:
   PixelData (const std::vector<std::vector<uint8_t> > &data) noexcept;

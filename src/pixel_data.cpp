@@ -25,3 +25,10 @@ PixelData::calculate_height (void) const noexcept
 {
   return this->data_.size ();
 }
+
+void
+PixelData::export_header (std::ofstream &fptr)
+{
+  if (fptr.fail ())
+    return;
+}
