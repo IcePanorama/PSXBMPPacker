@@ -55,6 +55,5 @@ DataPack::export_file (void)
 void
 DataPack::export_header (void)
 {
-  write_int16_to_file (this->file, static_cast<uint16_t> (this->file_id));
   write_int16_to_file (this->file, static_cast<uint16_t> (this->num_entries));
 }
