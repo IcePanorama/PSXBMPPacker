@@ -71,7 +71,7 @@ class DataPack
   void export_header (void);
 
 public:
-  static std::unordered_map<std::string, uint8_t> entity_ids;
+  static std::unordered_map<std::string, uint8_t> entry_ids;
 
   DataPack (const std::string &filename,
             const std::unordered_map<Color, uint8_t, ColorHasher_s> &clut_data,

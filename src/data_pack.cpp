@@ -6,7 +6,7 @@
 #include <format>
 #include <stdexcept>
 
-std::unordered_map<std::string, uint8_t> DataPack::entity_ids;
+std::unordered_map<std::string, uint8_t> DataPack::entry_ids;
 
 DataPack::DataPack (
     const std::string &filename,
@@ -52,6 +52,7 @@ DataPack::export_file (void)
 {
   this->export_header ();
 
+  this->file.write(reinterpret_cast<const char *>(&this->entry_id_), sizeof(this->entry_id_)):
   this->clut.export_data (this->file);
 }
 
