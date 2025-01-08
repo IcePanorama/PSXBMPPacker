@@ -1,14 +1,10 @@
 #include "pixel_data.hpp"
 
-#include <format>
-#include <iostream>
-
 PixelData::PixelData (const std::vector<std::vector<uint8_t> > &data) noexcept
     : data_ (data),
       width (this->calculate_width ()),
       height (this->calculate_height ())
 {
-  std::cout << std::format ("{:d} {:d}\n", this->width, this->height);
 }
 
 /**
@@ -18,7 +14,7 @@ PixelData::PixelData (const std::vector<std::vector<uint8_t> > &data) noexcept
 uint16_t
 PixelData::calculate_width (void) const noexcept
 {
-  if (this->data_.size () == 0 || this->data_.at (0).size () == 0)
+  if (this->data_.size () == 0)
     return 0;
 
   return (this->data_.at (0).size () >> 2);
