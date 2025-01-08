@@ -16,6 +16,8 @@ class ColorLookupTable
   uint16_t calculate_width (void) const noexcept;
   uint16_t calculate_height (void) const noexcept;
 
+  void export_header (std::ofstream &fptr);
+
 public:
   ColorLookupTable (
       const std::unordered_map<Color, uint8_t, ColorHasher_s> &data) noexcept;
