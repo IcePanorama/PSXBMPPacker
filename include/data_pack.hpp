@@ -25,7 +25,9 @@
  *  ---------------------------------------------------------------------------
  *  | Offset |  Size |    Value   |                   Notes                   |
  *  ---------------------------------------------------------------------------
- *  |    0x0 |     4 | Entry size | In bytes.                                 |
+ *  |    0x0 |     1 |   Entry ID |                                           |
+ *  ---------------------------------------------------------------------------
+ *  |    0x1 |     4 | Entry size | In bytes.                                 |
  *  ---------------------------------------------------------------------------
  *  |    0x4 |     ? |       Data | See ColorLookupTable or PixelData for more|
  *  |        |       |            | info.                                     |
@@ -38,6 +40,8 @@
 #include "pixel_data.hpp"
 
 #include <fstream>
+#include <string>
+#include <unordered_map>
 #include <vector>
 
 /**
@@ -73,6 +77,8 @@ class DataPack
   void export_header (void);
 
 public:
+  static std::unordered_map<std::string, uint8_t> entity_ids;
+
   DataPack (const std::string &filename,
             const std::unordered_map<Color, uint8_t, ColorHasher_s> &clut_data,
             const std::vector<std::vector<uint8_t> > &pixel_data);

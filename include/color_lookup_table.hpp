@@ -3,6 +3,7 @@
 
 #include "color.hpp"
 
+#include <fstream>
 #include <unordered_map>
 
 class ColorLookupTable
@@ -18,6 +19,8 @@ class ColorLookupTable
 public:
   ColorLookupTable (
       const std::unordered_map<Color, uint8_t, ColorHasher_s> &data) noexcept;
+
+  void export_data (std::ofstream &fptr);
 };
 
 #endif /* _COLOR_LOOKUP_TABLE_HPP_ */

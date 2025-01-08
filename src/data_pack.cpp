@@ -6,6 +6,8 @@
 #include <format>
 #include <stdexcept>
 
+std::unordered_map<std::string, uint8_t> DataPack::entity_ids;
+
 DataPack::DataPack (
     const std::string &filename,
     const std::unordered_map<Color, uint8_t, ColorHasher_s> &clut_data,
@@ -50,6 +52,8 @@ void
 DataPack::export_file (void)
 {
   this->export_header ();
+
+  this->clut.export_data (this->file);
 }
 
 void
