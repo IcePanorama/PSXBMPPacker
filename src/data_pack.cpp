@@ -1,12 +1,13 @@
 #include "data_pack.hpp"
 
 #include <algorithm>
-#include <cctype>
 #include <format>
 #include <stdexcept>
 
-DataPack::DataPack (const std::string &filename)
-    : filename_ (this->format_filename (filename)), file ()
+DataPack::DataPack (
+    const std::string &filename,
+    const std::unordered_map<Color, uint8_t, ColorHasher_s> &clut_data)
+    : filename_ (this->format_filename (filename)), file (), clut (clut_data)
 {
   file.open (this->filename_, std::ios::binary);
   if (!file.is_open ())

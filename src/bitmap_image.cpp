@@ -86,3 +86,27 @@ BitmapImage::get_filename (void) const noexcept
 {
   return this->filename_;
 }
+
+const std::unordered_map<Color, uint8_t, ColorHasher_s> &
+BitmapImage::get_color_table (void) const noexcept
+{
+  return this->color_table;
+}
+
+const std::vector<std::vector<uint8_t> > &
+BitmapImage::get_pixel_array (void) const noexcept
+{
+  return this->pixel_array;
+}
+
+uint32_t
+BitmapImage::get_width (void) const noexcept
+{
+  return this->width;
+}
+
+uint32_t
+BitmapImage::get_height (void) const noexcept
+{
+  return this->height;
+}

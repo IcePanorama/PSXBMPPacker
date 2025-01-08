@@ -13,7 +13,7 @@ main (void)
     {
       BitmapImage input (input_filename);
       std::cout << input.get_filename () << std::endl;
-      DataPack output (input.get_filename ());
+      DataPack output (input.get_filename (), input.get_color_table ());
       std::cout << output.get_filename () << std::endl;
     }
   catch (const std::runtime_error &e)

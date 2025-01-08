@@ -26,6 +26,7 @@ set(SRC_DIR "${PROJECT_SOURCE_DIR}/src")
 set(SRC_FILES
     "${SRC_DIR}/bitmap_image.cpp"
     "${SRC_DIR}/color.cpp"
+    "${SRC_DIR}/color_lookup_table.cpp"
     "${SRC_DIR}/data_pack.cpp"
     "${SRC_DIR}/main.cpp"
     "${SRC_DIR}/utils.cpp"
@@ -35,6 +36,7 @@ set(INCL_DIR "${PROJECT_SOURCE_DIR}/include")
 set(INCL_FILES
     "${INCL_DIR}/bitmap_image.hpp"
     "${INCL_DIR}/color.hpp"
+    "${INCL_DIR}/color_lookup_table.hpp"
     "${INCL_DIR}/data_pack.hpp"
     "${INCL_DIR}/utils.hpp"
 )
