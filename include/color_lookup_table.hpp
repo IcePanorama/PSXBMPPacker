@@ -12,8 +12,8 @@ class ColorLookupTable
   const uint16_t width;
   const uint16_t height;
 
-  uint16_t calculate_width (void);
-  uint16_t calculate_height (void);
+  uint16_t calculate_width (void) const noexcept;
+  uint16_t calculate_height (void) const noexcept;
 
 public:
   ColorLookupTable (

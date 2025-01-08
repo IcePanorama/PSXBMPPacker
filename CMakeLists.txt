@@ -29,6 +29,7 @@ set(SRC_FILES
     "${SRC_DIR}/color_lookup_table.cpp"
     "${SRC_DIR}/data_pack.cpp"
     "${SRC_DIR}/main.cpp"
+    "${SRC_DIR}/pixel_data.cpp"
     "${SRC_DIR}/utils.cpp"
 )
 
@@ -38,6 +39,7 @@ set(INCL_FILES
     "${INCL_DIR}/color.hpp"
     "${INCL_DIR}/color_lookup_table.hpp"
     "${INCL_DIR}/data_pack.hpp"
+    "${INCL_DIR}/pixel_data.hpp"
     "${INCL_DIR}/utils.hpp"
 )
 

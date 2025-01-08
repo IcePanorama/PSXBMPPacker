@@ -2,18 +2,19 @@
 
 ColorLookupTable::ColorLookupTable (
     const std::unordered_map<Color, uint8_t, ColorHasher_s> &data)
-    : data_ (data), width (calculate_width ()), height (calculate_height ())
+    : data_ (data), width (this->calculate_width ()),
+      height (this->calculate_height ())
 {
 }
 
 uint16_t
-ColorLookupTable::calculate_width (void)
+ColorLookupTable::calculate_width (void) const noexcept
 {
   return 16;
 }
 
 uint16_t
-ColorLookupTable::calculate_height (void)
+ColorLookupTable::calculate_height (void) const noexcept
 {
   return 1;
 }
