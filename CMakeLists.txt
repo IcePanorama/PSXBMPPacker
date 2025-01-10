@@ -20,6 +20,7 @@ add_compile_options(
     -Wctor-dtor-privacy
     -Wold-style-cast
     -Woverloaded-virtual
+    -g
 )
 
 set(SRC_DIR "${PROJECT_SOURCE_DIR}/src")

@@ -12,7 +12,8 @@ static void process_entry_ids (std::ifstream &config_file);
 int
 main (void)
 {
-  constexpr const char *input_filename = "pipes.bmp";
+  // constexpr const char *input_filename = "pipes.bmp";
+  constexpr const char *input_filename = "font.bmp";
 
   process_config_file ();
 
