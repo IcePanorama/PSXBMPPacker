@@ -31,6 +31,7 @@ void
 PixelData::export_data (std::ofstream &fptr)
 {
   this->export_header (fptr);
+  add_padding_to_file (fptr);
   this->export_pixel_data (fptr);
 }
 

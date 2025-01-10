@@ -1,6 +1,7 @@
 #include "utils.hpp"
 
 #include <array>
+#include <iosfwd>
 #include <stdexcept>
 
 uint32_t
@@ -48,4 +49,19 @@ write_int32_to_file (std::ofstream &fptr, uint32_t x)
 
   write_int16_to_file (fptr, LO);
   write_int16_to_file (fptr, HI);
+}
+
+void
+add_padding_to_file (std::ofstream &fptr)
+{
+  std::streampos current_pos = fptr.tellp ();
+
+  size_t padding = 4 - (current_pos % 4);
+  if (padding != 4)
+    {
+      fptr.write ("\0", padding);
+      if (fptr.fail ())
+        throw std::runtime_error (
+            "ERROR: Error padding file to nearest word.");
+    }
 }
