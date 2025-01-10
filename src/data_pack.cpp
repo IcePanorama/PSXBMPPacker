@@ -52,19 +52,25 @@ DataPack::export_file (void)
 {
   this->export_header ();
 
+  write_int16_to_file (this->file, this->entry_id_);
+  /*
   this->file.write (reinterpret_cast<const char *> (&this->entry_id_),
                     sizeof (this->entry_id_));
   if (this->file.fail ())
     throw std::runtime_error (
         "ERROR: Error writing entry id to output file.\n");
+  */
 
   this->clut.export_data (this->file);
 
+  write_int16_to_file (this->file, this->entry_id_);
+  /*
   this->file.write (reinterpret_cast<const char *> (&this->entry_id_),
                     sizeof (this->entry_id_));
   if (this->file.fail ())
     throw std::runtime_error (
         "ERROR: Error writing entry id to output file.\n");
+  */
 
   this->pixel_data_.export_data (this->file);
 }
