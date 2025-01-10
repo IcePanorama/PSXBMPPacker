@@ -27,10 +27,10 @@
  *  ---------------------------------------------------------------------------
  *  |    0x0 |     2 |   Entry ID |                                           |
  *  ---------------------------------------------------------------------------
- *  |    0x1 |     4 | Entry size | In bytes, of the remainder of this entry  |
+ *  |    0x2 |     4 | Entry size | In bytes, of the remainder of this entry  |
  *  |        |       |            | (excluding this value).                   |
  *  ---------------------------------------------------------------------------
- *  |    0x4 |     ? |       Data | Exact details differs. See                |
+ *  |    0x6 |     ? |       Data | Exact details differs. See                |
  *  |        |       |            | ColorLookupTable or PixelData for more    |
  *  |        |       |            | info.                                     |
  *  ---------------------------------------------------------------------------
