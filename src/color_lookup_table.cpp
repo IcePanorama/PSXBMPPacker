@@ -38,11 +38,6 @@ ColorLookupTable::export_data (std::ofstream &fptr)
 void
 ColorLookupTable::export_header (std::ofstream &fptr)
 {
-  // each clut entry = uint16_t
-  uint32_t size = (this->width * sizeof (uint16_t)) * this->height
-                  + 2 * sizeof (uint16_t);
-
-  write_int32_to_file (fptr, size);
   write_int16_to_file (fptr, this->width);
   write_int16_to_file (fptr, this->height);
 }
