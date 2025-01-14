@@ -46,10 +46,6 @@
 
 #include <fstream>
 #include <string>
-/*
-#include <unordered_map>
-#include <vector>
-*/
 
 /**
  *  Essentially the same this as the TIM image format used in the Sony
