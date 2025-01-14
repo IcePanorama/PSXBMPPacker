@@ -2,6 +2,7 @@
 #include "utils.hpp"
 
 #include <format>
+#include <iostream>
 #include <stdexcept>
 
 BitmapImage::BitmapImage (const std::string &filename)
@@ -10,6 +11,8 @@ BitmapImage::BitmapImage (const std::string &filename)
   if (!file.is_open ())
     throw std::runtime_error (
         std::format ("Error opening file, {}", filename));
+
+  std::cout << std::format ("Processing {}.\n", this->filename_);
 
   this->validate_file ();
 

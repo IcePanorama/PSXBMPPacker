@@ -2,7 +2,6 @@
 #include "data_pack.hpp"
 #include "packer_config.hpp"
 
-#include <format>
 #include <iostream>
 #include <stdexcept>
 
@@ -10,17 +9,16 @@ int
 main (void)
 {
   constexpr const char *input_filename = "pipes.bmp";
-  PackerConfig config;
 
+  PackerConfig config;
   config.process_config_file ();
 
   try
     {
-      std::cout << std::format ("Processing {}...\n", input_filename);
       BitmapImage input (input_filename);
-      DataPack output (input.get_filename (), input.get_color_table (),
-                       input.get_pixel_array ());
-      std::cout << std::format ("Created {}.\n", output.get_filename ());
+      DataPack output (config, input);
+      output.export_pack ();
+      std::cout << "Done.\n";
     }
   catch (const std::runtime_error &e)
     {

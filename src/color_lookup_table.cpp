@@ -43,11 +43,14 @@ ColorLookupTable::export_header (std::ofstream &fptr)
   write_int16_to_file (fptr, this->height);
 }
 
+#include <cassert>
+
 void
 ColorLookupTable::export_clut_entries (std::ofstream &fptr)
 {
   static const Color TRANSPARENCY (0xFF, 0x00, 0xFF);
-  constexpr const char *ERR_MSG = "ERROR: Error exporting CLUT entries.";
+  constexpr const char *ERR_MSG = "ColorLookupTable::export_clut_entries: "
+                                  "ERROR: Error exporting CLUT entries.";
 
   // Extract key-values from color table
   std::vector<Color> keys;
@@ -80,7 +83,12 @@ ColorLookupTable::export_clut_entries (std::ofstream &fptr)
       const Color &color = sorted_keys.at (cnt);
       if (color == TRANSPARENCY)
         {
-          fptr.seekp (0x2, std::ios::cur);
+          fptr.write ("\0\0", 2);
+          /*
+              fptr.flush ();
+              assert (fptr.good ());
+              fptr.seekp (0x2, std::ios::cur);
+           */
           if (fptr.fail ())
             throw std::runtime_error (ERR_MSG);
         }

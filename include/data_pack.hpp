@@ -39,13 +39,17 @@
 #ifndef _DATA_PACK_HPP_
 #define _DATA_PACK_HPP_
 
+#include "bitmap_image.hpp"
 #include "color_lookup_table.hpp"
+#include "packer_config.hpp"
 #include "pixel_data.hpp"
 
 #include <fstream>
 #include <string>
+/*
 #include <unordered_map>
 #include <vector>
+*/
 
 /**
  *  Essentially the same this as the TIM image format used in the Sony
@@ -56,9 +60,10 @@
 class DataPack
 {
   static constexpr uint8_t FLAGS_TYPE_BIT = 0;
+
+  const PackerConfig &config_;
   std::string filename_;
   std::ofstream file;
-
   uint16_t num_entries;
   uint8_t entry_id_;
 
@@ -71,17 +76,14 @@ class DataPack
    */
   std::string format_filename (const std::string &filename) const noexcept;
 
-  void export_file (void);
   void export_header (void);
 
 public:
-  static std::unordered_map<std::string, uint8_t> entry_ids;
-
-  DataPack (const std::string &filename,
-            const std::unordered_map<Color, uint8_t, ColorHasher_s> &clut_data,
-            const std::vector<std::vector<uint8_t> > &pixel_data,
+  DataPack (const PackerConfig &config, const BitmapImage &input,
             uint8_t entry_id = 0);
+
   std::string get_filename (void) const noexcept;
+  void export_pack (void);
 };
 
 #endif /* _DATA_PACK_HPP_ */

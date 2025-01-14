@@ -17,6 +17,8 @@ DataPack::DataPack (const PackerConfig &config, const BitmapImage &input,
   if (!file.is_open ())
     throw std::runtime_error (std::format (
         "ERROR: Error opening output file, {}.\n", this->filename_));
+
+  std::cout << "Creating Data Pack.\n";
 }
 
 std::string
@@ -46,7 +48,6 @@ DataPack::get_filename (void) const noexcept
 void
 DataPack::export_pack (void)
 {
-  std::cout << std::format ("Exporting {}.\n", this->filename_);
   this->export_header ();
 
   uint16_t prefix = this->entry_id_ & ~((1 << DataPack::FLAGS_TYPE_BIT) << 8);
