@@ -25,7 +25,11 @@
  *  ---------------------------------------------------------------------------
  *  | Offset |  Size |    Value   |                   Notes                   |
  *  ---------------------------------------------------------------------------
- *  |    0x0 |     2 |   Entry ID |                                           |
+ *  |    0x0 |     1 |   Entry ID |                                           |
+ *  ---------------------------------------------------------------------------
+ *  |    0x1 |     1 |      Flags | Bit 0 (TYPE):                             |
+ *  |        |       |            |   0: CLUT                                 |
+ *  |        |       |            |   1: Pixel array                          |
  *  ---------------------------------------------------------------------------
  *  |    0x2 |     ? |       Data | Exact details differs. See                |
  *  |        |       |            | ColorLookupTable or PixelData for more    |
@@ -51,6 +55,7 @@
  */
 class DataPack
 {
+  static constexpr uint8_t FLAGS_TYPE_BIT = 0;
   std::string filename_;
   std::ofstream file;
 

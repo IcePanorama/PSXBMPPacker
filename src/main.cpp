@@ -12,7 +12,8 @@ static void process_entry_ids (std::ifstream &config_file);
 int
 main (void)
 {
-  constexpr const char *input_filename = "pipes.bmp";
+  // constexpr const char *input_filename = "pipes.bmp";
+  constexpr const char *input_filename = "font.bmp";
 
   process_config_file ();
 
@@ -21,7 +22,8 @@ main (void)
       BitmapImage input (input_filename);
       DataPack output (input.get_filename (), input.get_color_table (),
                        input.get_pixel_array (),
-                       DataPack::entry_ids.at ("PIPE_TEXTURE"));
+                       // DataPack::entry_ids.at ("PIPE_TEXTURE"));
+                       DataPack::entry_ids.at ("FONT_TEXTURE"));
       std::cout << output.get_filename () << std::endl;
     }
   catch (const std::runtime_error &e)
