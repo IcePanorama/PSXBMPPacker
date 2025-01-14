@@ -6,12 +6,15 @@
 #include <stdexcept>
 
 int
-main (void)
+main (int argc, char **argv)
 {
   constexpr const char *input_filename = "pipes.bmp";
 
   PackerConfig config;
   config.process_config_file ();
+
+  if (argc > 2)
+    config.process_command_line_args (argc, argv);
 
   try
     {

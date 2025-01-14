@@ -8,11 +8,16 @@
 
 DataPack::DataPack (const PackerConfig &config, const BitmapImage &input,
                     uint8_t entry_id)
-    : config_ (config),
-      filename_ (this->format_filename (input.get_filename ())), file (),
-      num_entries (2), entry_id_ (entry_id), clut (input.get_color_table ()),
+    : config_ (config), filename_ (), file (), num_entries (2),
+      entry_id_ (entry_id), clut (input.get_color_table ()),
       pixel_data_ (input.get_pixel_array ())
 {
+  const std::string &given_filename = this->config_.get_output_filename ();
+  if (given_filename.length () == 0)
+    this->filename_ = this->format_filename (input.get_filename ());
+  else
+    this->filename_ = this->format_filename (given_filename);
+
   file.open (this->filename_, std::ios::binary);
   if (!file.is_open ())
     throw std::runtime_error (std::format (

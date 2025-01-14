@@ -44,6 +44,7 @@
 #include "packer_config.hpp"
 #include "pixel_data.hpp"
 
+#include <cstdint>
 #include <fstream>
 #include <string>
 
@@ -72,13 +73,13 @@ class DataPack
    */
   std::string format_filename (const std::string &filename) const noexcept;
 
+  std::string get_filename (void) const noexcept;
   void export_header (void);
 
 public:
   DataPack (const PackerConfig &config, const BitmapImage &input,
             uint8_t entry_id = 0);
 
-  std::string get_filename (void) const noexcept;
   void export_pack (void);
 };
 
