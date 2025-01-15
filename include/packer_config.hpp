@@ -13,7 +13,7 @@ class PackerConfig
 
   std::string filename_;
   std::ifstream file;
-  std::unordered_map<std::string, uint8_t> entry_ids;
+  std::unordered_map<std::string, uint8_t> entry_id_lookup;
   std::string output_filename;
 
   void process_entry_ids (void);
@@ -35,12 +35,15 @@ class PackerConfig
    */
   void process_input_files (int argc, char **argv, int arg_pos);
 
+  void process_entry_id_associations (std::string list);
+
 public:
   PackerConfig ();
   PackerConfig (std::string filename);
 
   std::vector<std::string> input_filenames;
   bool batch_processing;
+  std::vector<uint8_t> entry_ids;
 
   void process_config_file (void);
   void process_command_line_args (int argc, char **argv);

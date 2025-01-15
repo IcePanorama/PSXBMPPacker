@@ -2,6 +2,7 @@
 
 #include <array>
 #include <cctype>
+#include <cstddef>
 #include <format>
 #include <iostream>
 #include <stdexcept>
@@ -25,9 +26,9 @@ PackerConfig::process_config_file (void)
   this->file.open (this->filename_);
   if (!this->file.is_open ())
     {
-      std::cerr << std::format ("PackerConfig::process_config_file: WARNING: "
-                                "Failed to open config file, {}.\n",
-                                this->filename_);
+      std::cerr << std::format (
+          "{}: WARNING: Failed to open config file, {}.\n",
+          __PRETTY_FUNCTION__, this->filename_);
       return;
     }
 
@@ -51,6 +52,7 @@ PackerConfig::process_config_file (void)
   while (!this->file.eof ());
 }
 
+// TODO: modify how we're doing this so that these are actually usable.
 void
 PackerConfig::process_entry_ids (void)
 {
@@ -70,7 +72,7 @@ PackerConfig::process_entry_ids (void)
       std::string entry_name (entry_id.substr (0, delim));
       uint8_t id
           = static_cast<uint8_t> (std::stoi (entry_id.substr (delim + 1)));
-      this->entry_ids.insert (std::pair (entry_name, id));
+      this->entry_id_lookup.insert (std::pair (entry_name, id));
     }
 }
 
@@ -102,15 +104,17 @@ int
 PackerConfig::process_flags (int argc, char **argv, int arg_pos)
 {
   static constexpr const char *invalid_usage_err_fmt
-      = "PackerConfig::process_flags: ERROR: Invalid usage error.\n\ttry: "
-        "\t{} [-o output-filename] path/to/input.bmp ...";
+      = "{}: ERROR: Invalid usage error.\n\ttry: \t{} [-o output-filename] "
+        "path/to/input.bmp ...";
   enum ARGS_e
   {
     ARG_OUTPUT_FILENAME,
     ARG_NO_BATCH_PROCESSING,
+    ARG_ENTRY_IDS,
     ARG_NUM_ARGS
   };
-  std::array<std::string, ARG_NUM_ARGS> command_line_args = { "-o", "-s" };
+  std::array<std::string, ARG_NUM_ARGS> command_line_args
+      = { "-o", "-s", "-e" };
 
   int i;
   for (i = arg_pos; i < argc; i++)
@@ -118,8 +122,7 @@ PackerConfig::process_flags (int argc, char **argv, int arg_pos)
       if (command_line_args.at (ARG_OUTPUT_FILENAME).compare (argv[i]) == 0)
         {
           if (i + 1 == argc)
-            throw std::runtime_error (
-                std::format (invalid_usage_err_fmt, argv[0]));
+            goto error_cleanup;
 
           this->output_filename = argv[++i];
         }
@@ -128,17 +131,26 @@ PackerConfig::process_flags (int argc, char **argv, int arg_pos)
         {
           batch_processing = false;
         }
+      else if (command_line_args.at (ARG_ENTRY_IDS).compare (argv[i]) == 0)
+        {
+          if (i + 1 == argc)
+            goto error_cleanup;
+
+          this->process_entry_id_associations (argv[++i]);
+        }
       else
         {
           if (!std::isalnum (argv[i][0]))
-            throw std::runtime_error (
-                std::format (invalid_usage_err_fmt, argv[0]));
+            goto error_cleanup;
 
           return i - 1;
         }
     }
 
   return i;
+error_cleanup:
+  throw std::runtime_error (
+      std::format (invalid_usage_err_fmt, __PRETTY_FUNCTION__, argv[0]));
 }
 
 void
@@ -150,5 +162,34 @@ PackerConfig::process_input_files (int argc, char **argv, int arg_pos)
         break;
 
       this->input_filenames.push_back (argv[i]);
+    }
+}
+
+void
+PackerConfig::process_entry_id_associations (std::string list)
+{
+  static constexpr const char *invalid_entry_id_err_fmt
+      = "{}: ERROR: Invalid entry id, {}.\n";
+  std::vector<std::string> given_ids;
+
+  size_t delim = 0;
+  while (true)
+    {
+      if (list.length () == 0 || delim == std::string::npos)
+        break;
+
+      delim = list.find (',');
+      given_ids.push_back (std::string (list.substr (0, delim)));
+      list = list.substr (delim + 1);
+    }
+
+  for (const auto &id : given_ids)
+    {
+      const auto &got = this->entry_id_lookup.find (id);
+      if (got == this->entry_id_lookup.end ())
+        throw std::runtime_error (
+            std::format (invalid_entry_id_err_fmt, __PRETTY_FUNCTION__, id));
+
+      this->entry_ids.push_back (this->entry_id_lookup.at (id));
     }
 }
