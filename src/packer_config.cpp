@@ -10,12 +10,13 @@
 #include <string>
 
 PackerConfig::PackerConfig ()
-    : filename_ (PackerConfig::default_filename), batch_processing (true)
+    : filename_ (PackerConfig::default_filename), batch_processing (true),
+      sort_largest_first (true)
 {
 }
 
 PackerConfig::PackerConfig (std::string filename)
-    : filename_ (filename), batch_processing (true)
+    : filename_ (filename), batch_processing (true), sort_largest_first (true)
 {
 }
 
@@ -112,10 +113,11 @@ PackerConfig::process_flags (int argc, char **argv, int arg_pos)
     ARG_OUTPUT_FILENAME,
     ARG_NO_BATCH_PROCESSING,
     ARG_ENTRY_IDS,
+    ARG_SMALLEST_FIRST,
     ARG_NUM_ARGS
   };
   std::array<std::string, ARG_NUM_ARGS> command_line_args
-      = { "-o", "-s", "-e" };
+      = { "-o", "-s", "-e", "-r" };
 
   int i;
   for (i = arg_pos; i < argc; i++)
@@ -131,7 +133,7 @@ PackerConfig::process_flags (int argc, char **argv, int arg_pos)
       else if (command_line_args.at (ARG_NO_BATCH_PROCESSING).compare (argv[i])
                == 0)
         {
-          batch_processing = false;
+          this->batch_processing = false;
         }
       else if (command_line_args.at (ARG_ENTRY_IDS).compare (argv[i]) == 0)
         {
@@ -140,6 +142,11 @@ PackerConfig::process_flags (int argc, char **argv, int arg_pos)
                 invalid_usage_err_fmt, __PRETTY_FUNCTION__, argv[0]));
 
           this->process_entry_id_associations (argv[++i]);
+        }
+      else if (command_line_args.at (ARG_SMALLEST_FIRST).compare (argv[i])
+               == 0)
+        {
+          this->sort_largest_first = false;
         }
       else
         {

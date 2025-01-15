@@ -55,6 +55,7 @@ public:
   std::vector<std::string> input_filenames;
   bool batch_processing;
   std::unordered_map<std::string, uint8_t> entry_id_register;
+  bool sort_largest_first;
 
   void process_config_file (void);
   void process_command_line_args (int argc, char **argv);

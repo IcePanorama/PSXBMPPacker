@@ -30,7 +30,8 @@ main (int argc, char **argv)
       config.register_entry_ids (input_files);
 
       std::sort (input_files.begin (), input_files.end ());
-      std::reverse (input_files.begin (), input_files.end ());
+      if (config.sort_largest_first)
+        std::reverse (input_files.begin (), input_files.end ());
 
       if (config.batch_processing)
         {
