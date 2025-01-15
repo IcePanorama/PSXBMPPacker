@@ -26,13 +26,14 @@ main (int argc, char **argv)
           input_files.push_back (BitmapImage (filename));
         }
 
-      // TODO: handle different inputs having different entry ids
+      config.pad_entry_ids (input_files.size ());
+
       if (config.batch_processing)
         {
           DataPack output (config, input_files.at (0), 0);
 
           for (size_t i = 1; i < input_files.size (); i++)
-            output.append (input_files.at (i), 1);
+            output.append (input_files.at (i), config.entry_ids.at (i));
 
           output.export_pack ();
         }
@@ -40,7 +41,8 @@ main (int argc, char **argv)
         {
           for (size_t i = 0; i < input_files.size (); i++)
             {
-              DataPack output (config, input_files.at (i), 0);
+              DataPack output (config, input_files.at (i),
+                               config.entry_ids.at (i));
               output.export_pack ();
             }
         }

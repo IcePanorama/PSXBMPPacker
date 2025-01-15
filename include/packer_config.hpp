@@ -47,6 +47,7 @@ public:
 
   void process_config_file (void);
   void process_command_line_args (int argc, char **argv);
+  void pad_entry_ids (size_t target_size) noexcept;
 
   const std::string &get_output_filename (void) const noexcept;
 };

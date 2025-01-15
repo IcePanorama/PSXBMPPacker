@@ -3,6 +3,7 @@
 #include <array>
 #include <cctype>
 #include <cstddef>
+#include <cstdint>
 #include <format>
 #include <iostream>
 #include <stdexcept>
@@ -192,4 +193,18 @@ PackerConfig::process_entry_id_associations (std::string list)
 
       this->entry_ids.push_back (this->entry_id_lookup.at (id));
     }
+}
+
+void
+PackerConfig::pad_entry_ids (size_t target_size) noexcept
+{
+  if (this->entry_ids.size () >= target_size)
+    return;
+
+  uint8_t last_element;
+  if (this->entry_ids.size () == 0)
+    last_element = 0;
+  else
+    last_element = this->entry_ids.back ();
+  this->entry_ids.resize (target_size, last_element);
 }
