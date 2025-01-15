@@ -30,7 +30,7 @@ main (int argc, char **argv)
 
       if (config.batch_processing)
         {
-          DataPack output (config, input_files.at (0), 0);
+          DataPack output (config, input_files.at (0), config.entry_ids.at(0));
 
           for (size_t i = 1; i < input_files.size (); i++)
             output.append (input_files.at (i), config.entry_ids.at (i));
