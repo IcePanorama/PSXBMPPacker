@@ -122,7 +122,8 @@ PackerConfig::process_flags (int argc, char **argv, int arg_pos)
       if (command_line_args.at (ARG_OUTPUT_FILENAME).compare (argv[i]) == 0)
         {
           if (i + 1 == argc)
-            goto error_cleanup;
+            throw std::runtime_error (std::format (
+                invalid_usage_err_fmt, __PRETTY_FUNCTION__, argv[0]));
 
           this->output_filename = argv[++i];
         }
@@ -134,23 +135,22 @@ PackerConfig::process_flags (int argc, char **argv, int arg_pos)
       else if (command_line_args.at (ARG_ENTRY_IDS).compare (argv[i]) == 0)
         {
           if (i + 1 == argc)
-            goto error_cleanup;
+            throw std::runtime_error (std::format (
+                invalid_usage_err_fmt, __PRETTY_FUNCTION__, argv[0]));
 
           this->process_entry_id_associations (argv[++i]);
         }
       else
         {
           if (!std::isalnum (argv[i][0]))
-            goto error_cleanup;
+            throw std::runtime_error (std::format (
+                invalid_usage_err_fmt, __PRETTY_FUNCTION__, argv[0]));
 
           return i - 1;
         }
     }
 
   return i;
-error_cleanup:
-  throw std::runtime_error (
-      std::format (invalid_usage_err_fmt, __PRETTY_FUNCTION__, argv[0]));
 }
 
 void
