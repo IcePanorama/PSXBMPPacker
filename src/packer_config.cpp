@@ -78,8 +78,6 @@ void
 PackerConfig::process_command_line_args (int argc, char **argv)
 {
 
-  this->executable_name = argv[0];
-
   for (int i = 1; i < argc; i++) // skip executable name.
     {
       if (!std::isalnum (argv[i][0]))

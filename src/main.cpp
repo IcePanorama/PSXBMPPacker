@@ -8,9 +8,11 @@
 int
 main (int argc, char **argv)
 {
+  PackerConfig config;
+  std::vector<BitmapImage> input_files;
+
   try
     {
-      PackerConfig config;
       config.process_config_file ();
 
       if (argc > 1)
@@ -19,15 +21,20 @@ main (int argc, char **argv)
       if (config.input_filenames.size () == 0)
         return 0;
 
-      BitmapImage input (config.input_filenames.at (0));
-      DataPack output (config, input);
+      for (const auto &filename : config.input_filenames)
+        {
+          input_files.push_back (BitmapImage (filename));
+        }
+
+      DataPack output (config, input_files.at (0));
       output.export_pack ();
-      std::cout << "Done.\n";
     }
   catch (const std::runtime_error &e)
     {
       std::cerr << e.what () << std::endl;
+      return -1;
     }
 
+  std::cout << "Done.\n";
   return 0;
 }
