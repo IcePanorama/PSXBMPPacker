@@ -208,3 +208,15 @@ PackerConfig::pad_entry_ids (size_t target_size) noexcept
     last_element = this->entry_ids.back ();
   this->entry_ids.resize (target_size, last_element);
 }
+
+void
+PackerConfig::register_entry_ids (const std::vector<BitmapImage> &images)
+{
+  if (images.size () == 0)
+    return;
+
+  this->pad_entry_ids (images.size ());
+  for (size_t i = 0; i < images.size (); i++)
+    this->entry_id_register[images.at (i).get_filename ()]
+        = this->entry_ids.at (i);
+}

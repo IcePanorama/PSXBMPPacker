@@ -26,14 +26,18 @@ main (int argc, char **argv)
           input_files.push_back (BitmapImage (filename));
         }
 
-      config.pad_entry_ids (input_files.size ());
+      config.register_entry_ids (input_files);
 
       if (config.batch_processing)
         {
-          DataPack output (config, input_files.at (0), config.entry_ids.at(0));
+          DataPack output (config, input_files.at (0),
+                           config.entry_id_register.at (
+                               input_files.at (0).get_filename ()));
 
           for (size_t i = 1; i < input_files.size (); i++)
-            output.append (input_files.at (i), config.entry_ids.at (i));
+            output.append (input_files.at (i),
+                           config.entry_id_register.at (
+                               input_files.at (i).get_filename ()));
 
           output.export_pack ();
         }
@@ -42,7 +46,8 @@ main (int argc, char **argv)
           for (size_t i = 0; i < input_files.size (); i++)
             {
               DataPack output (config, input_files.at (i),
-                               config.entry_ids.at (i));
+                               config.entry_id_register.at (
+                                   input_files.at (i).get_filename ()));
               output.export_pack ();
             }
         }
