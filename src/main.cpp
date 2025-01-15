@@ -26,7 +26,12 @@ main (int argc, char **argv)
           input_files.push_back (BitmapImage (filename));
         }
 
-      DataPack output (config, input_files.at (0));
+      DataPack output (config, input_files.at (0), 0);
+
+      // TODO: handle different entry ids for different sections of the pack.
+      for (size_t i = 1; i < input_files.size (); i++)
+        output.append (input_files.at (i), 1);
+
       output.export_pack ();
     }
   catch (const std::runtime_error &e)

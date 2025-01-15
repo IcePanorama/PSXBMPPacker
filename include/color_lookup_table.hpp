@@ -38,20 +38,22 @@ class ColorLookupTable
 {
   const std::unordered_map<Color, uint8_t, ColorHasher_s> &data_;
 
+  const uint8_t entry_id_;
   const uint16_t width;
   const uint16_t height;
 
   uint16_t calculate_width (void) const noexcept;
   uint16_t calculate_height (void) const noexcept;
 
-  void export_header (std::ofstream &fptr);
-  void export_clut_entries (std::ofstream &fptr);
+  void export_header (std::ofstream &fptr) const;
+  void export_clut_entries (std::ofstream &fptr) const;
 
 public:
   ColorLookupTable (
-      const std::unordered_map<Color, uint8_t, ColorHasher_s> &data) noexcept;
+      const std::unordered_map<Color, uint8_t, ColorHasher_s> &data,
+      uint8_t entry_id) noexcept;
 
-  void export_data (std::ofstream &fptr);
+  void export_data (std::ofstream &fptr) const;
 };
 
 #endif /* _COLOR_LOOKUP_TABLE_HPP_ */

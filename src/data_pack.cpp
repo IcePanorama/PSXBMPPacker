@@ -1,5 +1,4 @@
 #include "data_pack.hpp"
-#include "pixel_data.hpp"
 #include "utils.hpp"
 
 #include <algorithm>
@@ -8,9 +7,7 @@
 
 DataPack::DataPack (const PackerConfig &config, const BitmapImage &input,
                     uint8_t entry_id)
-    : config_ (config), filename_ (), file (), num_entries (2),
-      entry_id_ (entry_id), clut (input.get_color_table ()),
-      pixel_data_ (input.get_pixel_array ())
+    : config_ (config), filename_ (), file (), num_entries (2)
 {
   const std::string &given_filename = this->config_.get_output_filename ();
   if (given_filename.length () == 0)
@@ -22,6 +19,10 @@ DataPack::DataPack (const PackerConfig &config, const BitmapImage &input,
   if (!file.is_open ())
     throw std::runtime_error (std::format (
         "ERROR: Error opening output file, {}.\n", this->filename_));
+
+  this->cluts.push_back (
+      ColorLookupTable (input.get_color_table (), entry_id));
+  this->pixel_data_.push_back (PixelData (input.get_pixel_array (), entry_id));
 }
 
 std::string
@@ -54,17 +55,25 @@ DataPack::export_pack (void)
   std::cout << std::format ("Exporting {}.\n", this->filename_);
   this->export_header ();
 
-  uint16_t prefix = this->entry_id_ & ~((1 << DataPack::FLAGS_TYPE_BIT) << 8);
-  write_int16_to_file (this->file, prefix);
-  this->clut.export_data (this->file);
+  for (const auto &clut : this->cluts)
+    clut.export_data (this->file);
 
-  prefix = this->entry_id_ | ((1 << DataPack::FLAGS_TYPE_BIT) << 8);
-  write_int16_to_file (this->file, prefix);
-  this->pixel_data_.export_data (this->file);
+  for (const auto &pixel_array : this->pixel_data_)
+    pixel_array.export_data (this->file);
 }
 
 void
 DataPack::export_header (void)
 {
   write_int16_to_file (this->file, static_cast<uint16_t> (this->num_entries));
+}
+
+void
+DataPack::append (const BitmapImage &input, uint8_t entry_id)
+{
+  this->num_entries += 2;
+
+  this->cluts.push_back (
+      ColorLookupTable (input.get_color_table (), entry_id));
+  this->pixel_data_.push_back (PixelData (input.get_pixel_array (), entry_id));
 }

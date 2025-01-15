@@ -47,6 +47,7 @@
 #include <cstdint>
 #include <fstream>
 #include <string>
+#include <vector>
 
 /**
  *  Essentially the same this as the TIM image format used in the Sony
@@ -56,16 +57,13 @@
  */
 class DataPack
 {
-  static constexpr uint8_t FLAGS_TYPE_BIT = 0;
-
   const PackerConfig &config_;
   std::string filename_;
   std::ofstream file;
   uint16_t num_entries;
-  uint8_t entry_id_;
 
-  ColorLookupTable clut;
-  PixelData pixel_data_;
+  std::vector<ColorLookupTable> cluts;
+  std::vector<PixelData> pixel_data_;
 
   /**
    *  Conforms a given filename to the DOS 8.3 standard.
@@ -77,9 +75,12 @@ class DataPack
   void export_header (void);
 
 public:
+  static constexpr uint8_t FLAGS_TYPE_BIT = 0;
+
   DataPack (const PackerConfig &config, const BitmapImage &input,
             uint8_t entry_id = 0);
 
+  void append (const BitmapImage &input, uint8_t entry_id = 0);
   void export_pack (void);
 };
 

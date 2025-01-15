@@ -1,4 +1,5 @@
 #include "color_lookup_table.hpp"
+#include "data_pack.hpp"
 #include "utils.hpp"
 
 #include <algorithm>
@@ -7,10 +8,11 @@
 #include <vector>
 
 ColorLookupTable::ColorLookupTable (
-    const std::unordered_map<Color, uint8_t, ColorHasher_s> &data) noexcept
-    : data_ (data),
-      width (this->calculate_width ()),
-      height (this->calculate_height ())
+    const std::unordered_map<Color, uint8_t, ColorHasher_s> &data,
+    uint8_t entry_id) noexcept : data_ (data),
+                                 entry_id_ (entry_id),
+                                 width (this->calculate_width ()),
+                                 height (this->calculate_height ())
 {
 }
 
@@ -29,7 +31,7 @@ ColorLookupTable::calculate_height (void) const noexcept
 }
 
 void
-ColorLookupTable::export_data (std::ofstream &fptr)
+ColorLookupTable::export_data (std::ofstream &fptr) const
 {
   this->export_header (fptr);
   add_padding_to_file (fptr);
@@ -37,8 +39,11 @@ ColorLookupTable::export_data (std::ofstream &fptr)
 }
 
 void
-ColorLookupTable::export_header (std::ofstream &fptr)
+ColorLookupTable::export_header (std::ofstream &fptr) const
 {
+  uint16_t prefix = this->entry_id_ & ~((1 << DataPack::FLAGS_TYPE_BIT) << 8);
+  write_int16_to_file (fptr, prefix);
+
   write_int16_to_file (fptr, this->width);
   write_int16_to_file (fptr, this->height);
 }
@@ -46,7 +51,7 @@ ColorLookupTable::export_header (std::ofstream &fptr)
 #include <cassert>
 
 void
-ColorLookupTable::export_clut_entries (std::ofstream &fptr)
+ColorLookupTable::export_clut_entries (std::ofstream &fptr) const
 {
   static const Color TRANSPARENCY (0xFF, 0x00, 0xFF);
   constexpr const char *ERR_MSG = "ColorLookupTable::export_clut_entries: "

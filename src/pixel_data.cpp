@@ -1,8 +1,10 @@
 #include "pixel_data.hpp"
 #include "utils.hpp"
 
-PixelData::PixelData (const std::vector<std::vector<uint8_t> > &data) noexcept
+PixelData::PixelData (const std::vector<std::vector<uint8_t> > &data,
+                      uint8_t entry_id) noexcept
     : data_ (data),
+      entry_id_ (entry_id),
       width (this->calculate_width ()),
       height (this->calculate_height ())
 {
@@ -28,7 +30,7 @@ PixelData::calculate_height (void) const noexcept
 }
 
 void
-PixelData::export_data (std::ofstream &fptr)
+PixelData::export_data (std::ofstream &fptr) const
 {
   this->export_header (fptr);
   add_padding_to_file (fptr);
@@ -36,14 +38,14 @@ PixelData::export_data (std::ofstream &fptr)
 }
 
 void
-PixelData::export_header (std::ofstream &fptr)
+PixelData::export_header (std::ofstream &fptr) const
 {
   write_int16_to_file (fptr, this->width);
   write_int16_to_file (fptr, this->height);
 }
 
 void
-PixelData::export_pixel_data (std::ofstream &fptr)
+PixelData::export_pixel_data (std::ofstream &fptr) const
 {
   for (const auto &row : this->data_)
     {

@@ -38,19 +38,21 @@ class PixelData
 {
   const std::vector<std::vector<uint8_t> > &data_;
 
+  const uint8_t entry_id_;
   const uint16_t width;
   const uint16_t height;
 
   uint16_t calculate_width (void) const noexcept;
   uint16_t calculate_height (void) const noexcept;
 
-  void export_header (std::ofstream &fptr);
-  void export_pixel_data (std::ofstream &fptr);
+  void export_header (std::ofstream &fptr) const;
+  void export_pixel_data (std::ofstream &fptr) const;
 
 public:
-  PixelData (const std::vector<std::vector<uint8_t> > &data) noexcept;
+  PixelData (const std::vector<std::vector<uint8_t> > &data,
+             uint8_t entry_id) noexcept;
 
-  void export_data (std::ofstream &fptr);
+  void export_data (std::ofstream &fptr) const;
 };
 
 #endif /* _PIXEL_DATA_HPP_ */
