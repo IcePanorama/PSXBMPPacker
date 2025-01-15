@@ -1,6 +1,7 @@
 #include "packer_config.hpp"
 
 #include <array>
+#include <cctype>
 #include <format>
 #include <iostream>
 #include <stdexcept>
@@ -70,23 +71,39 @@ PackerConfig::process_entry_ids (void)
 void
 PackerConfig::process_command_line_args (int argc, char **argv)
 {
+  static constexpr const char *invalid_usage_err_fmt
+      = "PackerConfig::process_command_line_args: ERROR: Invalid usage "
+        "error.\n\ttry: \t{} [-o output-filename] path/to/first.bmp ...";
+
   enum ARGS_e
   {
     ARG_OUTPUT_FILENAME,
     ARG_NUM_ARGS
   };
 
-  std::array<std::string, 1> command_line_args = { "-o" };
+  std::array<std::string, ARG_NUM_ARGS> command_line_args = { "-o" };
 
   for (int i = 1; i < argc; i++) // skip executable name.
     {
-      if (command_line_args.at (ARG_OUTPUT_FILENAME).compare (argv[i]) == 0)
+      if (!std::isalnum (argv[i][0]))
         {
-          if (i + 1 == argc)
-            throw std::runtime_error (
-                std::format ("PackerConfig::process_command_line_args: ERROR: "
-                             "Invalid usage error."));
-          this->output_filename = argv[++i];
+          if (command_line_args.at (ARG_OUTPUT_FILENAME).compare (argv[i])
+              == 0)
+            {
+              if (i + 1 == argc)
+                throw std::runtime_error (
+                    std::format (invalid_usage_err_fmt, argv[0]));
+              this->output_filename = argv[++i];
+            }
+          else
+            {
+              throw std::runtime_error (
+                  std::format (invalid_usage_err_fmt, argv[0]));
+            }
+        }
+      else
+        {
+          this->process_input_files (argc, argv, i);
         }
     }
 }
@@ -95,4 +112,16 @@ const std::string &
 PackerConfig::get_output_filename (void) const noexcept
 {
   return this->output_filename;
+}
+
+void
+PackerConfig::process_input_files (int argc, char **argv, int arg_pos)
+{
+  for (int i = arg_pos; i < argc; i++)
+    {
+      if (!std::isalnum (argv[i][0]))
+        break;
+
+      this->input_filenames.push_back (argv[i]);
+    }
 }

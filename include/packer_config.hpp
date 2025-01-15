@@ -5,6 +5,7 @@
 #include <fstream>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 class PackerConfig
 {
@@ -16,10 +17,13 @@ class PackerConfig
   std::string output_filename;
 
   void process_entry_ids (void);
+  void process_input_files (int argc, char **argv, int arg_pos);
 
 public:
   PackerConfig ();
   PackerConfig (std::string filename);
+
+  std::vector<std::string> input_filenames;
 
   void process_config_file (void);
   void process_command_line_args (int argc, char **argv);

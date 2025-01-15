@@ -8,17 +8,18 @@
 int
 main (int argc, char **argv)
 {
-  constexpr const char *input_filename = "pipes.bmp";
-
-  PackerConfig config;
-  config.process_config_file ();
-
-  if (argc > 2)
-    config.process_command_line_args (argc, argv);
-
   try
     {
-      BitmapImage input (input_filename);
+      PackerConfig config;
+      config.process_config_file ();
+
+      if (argc > 1)
+        config.process_command_line_args (argc, argv);
+
+      if (config.input_filenames.size () == 0)
+        return 0;
+
+      BitmapImage input (config.input_filenames.at (0));
       DataPack output (config, input);
       output.export_pack ();
       std::cout << "Done.\n";
