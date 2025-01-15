@@ -40,6 +40,7 @@ public:
   PackerConfig (std::string filename);
 
   std::vector<std::string> input_filenames;
+  bool batch_processing;
 
   void process_config_file (void);
   void process_command_line_args (int argc, char **argv);

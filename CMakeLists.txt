@@ -67,7 +67,7 @@ endif()
 find_program(VALGRIND_EXECUTABLE NAMES valgrind)
 if(VALGRIND_EXECUTABLE)
     add_custom_target(test
-        COMMAND ${VALGRIND_EXECUTABLE} --leak-check=yes ./${PROJECT_NAME} -o test *.bmp
+        COMMAND ${VALGRIND_EXECUTABLE} --leak-check=yes ./${PROJECT_NAME} -o testING12345.dummy *.bmp
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
         COMMENT "Running valgrind leak check on executable."
     )

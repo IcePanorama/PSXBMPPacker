@@ -7,9 +7,15 @@
 #include <stdexcept>
 #include <string>
 
-PackerConfig::PackerConfig () : filename_ (PackerConfig::default_filename) {}
+PackerConfig::PackerConfig ()
+    : filename_ (PackerConfig::default_filename), batch_processing (true)
+{
+}
 
-PackerConfig::PackerConfig (std::string filename) : filename_ (filename) {}
+PackerConfig::PackerConfig (std::string filename)
+    : filename_ (filename), batch_processing (true)
+{
+}
 
 void
 PackerConfig::process_config_file (void)
@@ -101,9 +107,10 @@ PackerConfig::process_flags (int argc, char **argv, int arg_pos)
   enum ARGS_e
   {
     ARG_OUTPUT_FILENAME,
+    ARG_NO_BATCH_PROCESSING,
     ARG_NUM_ARGS
   };
-  std::array<std::string, ARG_NUM_ARGS> command_line_args = { "-o" };
+  std::array<std::string, ARG_NUM_ARGS> command_line_args = { "-o", "-s" };
 
   int i;
   for (i = arg_pos; i < argc; i++)
@@ -115,6 +122,11 @@ PackerConfig::process_flags (int argc, char **argv, int arg_pos)
                 std::format (invalid_usage_err_fmt, argv[0]));
 
           this->output_filename = argv[++i];
+        }
+      else if (command_line_args.at (ARG_NO_BATCH_PROCESSING).compare (argv[i])
+               == 0)
+        {
+          batch_processing = false;
         }
       else
         {
