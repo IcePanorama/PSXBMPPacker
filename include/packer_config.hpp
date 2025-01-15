@@ -14,10 +14,25 @@ class PackerConfig
   std::string filename_;
   std::ifstream file;
   std::unordered_map<std::string, uint8_t> entry_ids;
+  std::string executable_name;
   std::string output_filename;
 
   void process_entry_ids (void);
-  void process_input_files (int argc, char **argv, int arg_pos);
+  /**
+   *  `arg_pos` is the index of the current argument being processed (in this
+   *  case, the flag).
+   *  @returns  index of the next command line argument - 1
+   */
+  int process_flags (int argc, char **argv, int arg_pos);
+
+  /**
+   *  `arg_pos` is the index of the current argument being processed (in this
+   *  case, an input filename). File verification is NOT done here.
+   *  @returns  index of the next command line argument - 1
+   *  @see BitmapImage::BitmapImage
+   *  @see BitmapImage::validate_file
+   */
+  int process_input_files (int argc, char **argv, int arg_pos);
 
 public:
   PackerConfig ();

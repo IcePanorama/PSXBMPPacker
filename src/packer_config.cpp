@@ -68,46 +68,6 @@ PackerConfig::process_entry_ids (void)
     }
 }
 
-void
-PackerConfig::process_command_line_args (int argc, char **argv)
-{
-  static constexpr const char *invalid_usage_err_fmt
-      = "PackerConfig::process_command_line_args: ERROR: Invalid usage "
-        "error.\n\ttry: \t{} [-o output-filename] path/to/first.bmp ...";
-
-  enum ARGS_e
-  {
-    ARG_OUTPUT_FILENAME,
-    ARG_NUM_ARGS
-  };
-
-  std::array<std::string, ARG_NUM_ARGS> command_line_args = { "-o" };
-
-  for (int i = 1; i < argc; i++) // skip executable name.
-    {
-      if (!std::isalnum (argv[i][0]))
-        {
-          if (command_line_args.at (ARG_OUTPUT_FILENAME).compare (argv[i])
-              == 0)
-            {
-              if (i + 1 == argc)
-                throw std::runtime_error (
-                    std::format (invalid_usage_err_fmt, argv[0]));
-              this->output_filename = argv[++i];
-            }
-          else
-            {
-              throw std::runtime_error (
-                  std::format (invalid_usage_err_fmt, argv[0]));
-            }
-        }
-      else
-        {
-          this->process_input_files (argc, argv, i);
-        }
-    }
-}
-
 const std::string &
 PackerConfig::get_output_filename (void) const noexcept
 {
@@ -115,13 +75,66 @@ PackerConfig::get_output_filename (void) const noexcept
 }
 
 void
-PackerConfig::process_input_files (int argc, char **argv, int arg_pos)
+PackerConfig::process_command_line_args (int argc, char **argv)
 {
-  for (int i = arg_pos; i < argc; i++)
+
+  this->executable_name = argv[0];
+
+  for (int i = 1; i < argc; i++) // skip executable name.
     {
       if (!std::isalnum (argv[i][0]))
-        break;
+        {
+          i = this->process_flags (argc, argv, i);
+        }
+      else
+        {
+          i = this->process_input_files (argc, argv, i);
+        }
+    }
+}
+
+int
+PackerConfig::process_flags (int argc, char **argv, int arg_pos)
+{
+  static constexpr const char *invalid_usage_err_fmt
+      = "PackerConfig::process_flags: ERROR: Invalid usage error.\n\ttry: "
+        "\t{} [-o output-filename] path/to/input.bmp ...";
+  enum ARGS_e
+  {
+    ARG_OUTPUT_FILENAME,
+    ARG_NUM_ARGS
+  };
+  std::array<std::string, ARG_NUM_ARGS> command_line_args = { "-o" };
+
+  int i;
+  for (i = arg_pos; i < argc; i++)
+    {
+      if (command_line_args.at (ARG_OUTPUT_FILENAME).compare (argv[i]) == 0)
+        {
+          if (i + 1 == argc)
+            throw std::runtime_error (
+                std::format (invalid_usage_err_fmt, argv[0]));
+
+          this->output_filename = argv[++i];
+        }
+      else
+        return i - 1;
+    }
+
+  return i;
+}
+
+int
+PackerConfig::process_input_files (int argc, char **argv, int arg_pos)
+{
+  int i;
+  for (i = arg_pos; i < argc; i++)
+    {
+      if (!std::isalnum (argv[i][0]))
+        return i - 1;
 
       this->input_filenames.push_back (argv[i]);
     }
+
+  return i;
 }
