@@ -26,12 +26,14 @@ class PackerConfig
 
   /**
    *  `arg_pos` is the index of the current argument being processed (in this
-   *  case, an input filename). File verification is NOT done here.
-   *  @returns  index of the next command line argument - 1
+   *  case, an input filename). File verification is NOT done here. The list of
+   *  input files MUST come last in the list of command line arguments as input
+   *  file processing is treated as the final step of the command line argument
+   *  processing pipeline.
    *  @see BitmapImage::BitmapImage
    *  @see BitmapImage::validate_file
    */
-  int process_input_files (int argc, char **argv, int arg_pos);
+  void process_input_files (int argc, char **argv, int arg_pos);
 
 public:
   PackerConfig ();

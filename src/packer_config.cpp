@@ -86,7 +86,8 @@ PackerConfig::process_command_line_args (int argc, char **argv)
         }
       else
         {
-          i = this->process_input_files (argc, argv, i);
+          this->process_input_files (argc, argv, i);
+          break;
         }
     }
 }
@@ -116,23 +117,26 @@ PackerConfig::process_flags (int argc, char **argv, int arg_pos)
           this->output_filename = argv[++i];
         }
       else
-        return i - 1;
+        {
+          if (!std::isalnum (argv[i][0]))
+            throw std::runtime_error (
+                std::format (invalid_usage_err_fmt, argv[0]));
+
+          return i - 1;
+        }
     }
 
   return i;
 }
 
-int
+void
 PackerConfig::process_input_files (int argc, char **argv, int arg_pos)
 {
-  int i;
-  for (i = arg_pos; i < argc; i++)
+  for (int i = arg_pos; i < argc; i++)
     {
       if (!std::isalnum (argv[i][0]))
-        return i - 1;
+        break;
 
       this->input_filenames.push_back (argv[i]);
     }
-
-  return i;
 }
