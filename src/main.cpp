@@ -2,6 +2,7 @@
 #include "data_pack.hpp"
 #include "packer_config.hpp"
 
+#include <algorithm>
 #include <iostream>
 #include <stdexcept>
 
@@ -27,6 +28,9 @@ main (int argc, char **argv)
         }
 
       config.register_entry_ids (input_files);
+
+      std::sort (input_files.begin (), input_files.end ());
+      std::reverse (input_files.begin (), input_files.end ());
 
       if (config.batch_processing)
         {

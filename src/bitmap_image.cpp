@@ -113,3 +113,15 @@ BitmapImage::get_height (void) const noexcept
 {
   return this->height;
 }
+
+/*
+ *  FIXME: gonna have to change this when we support multiple output modes.
+ *  i.e., a 1-bpp img of a given width and height will end up being smaller
+ *  than a 4-bpp img of the same width/height.
+ */
+bool
+BitmapImage::operator< (const BitmapImage &other) const
+{
+  return (this->color_table.size () < other.color_table.size ()
+          && this->pixel_array.size () < other.pixel_array.size ());
+}

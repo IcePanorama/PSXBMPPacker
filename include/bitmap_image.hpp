@@ -15,7 +15,7 @@ class BitmapImage
   static constexpr uint8_t BITMAP_DIMENSIONS_LOC = 0x12;
   static constexpr uint8_t BYTES_PER_PIXEL = 3;
 
-  const std::string filename_;
+  std::string filename_;
   std::ifstream file;
   /**
    *  The offset to where the pixel array can be found.
@@ -47,6 +47,8 @@ public:
   get_pixel_array (void) const noexcept;
   uint32_t get_width (void) const noexcept;
   uint32_t get_height (void) const noexcept;
+
+  bool operator< (const BitmapImage &str) const;
 };
 
 #endif /* _BITMAP_IMAGE_HPP_ */
