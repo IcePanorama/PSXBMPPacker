@@ -14,7 +14,6 @@ class PackerConfig
   std::string filename_;
   std::ifstream file;
   std::unordered_map<std::string, uint8_t> entry_ids;
-  std::string executable_name;
   std::string output_filename;
 
   void process_entry_ids (void);
