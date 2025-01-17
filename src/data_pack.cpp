@@ -60,13 +60,6 @@ DataPack::export_pack (void)
       this->cluts.at (i).export_data (this->file);
       this->pixel_data_.at (i).export_data (this->file);
     }
-  /*
-  for (const auto &clut : this->cluts)
-    clut.export_data (this->file);
-
-  for (const auto &pixel_array : this->pixel_data_)
-    pixel_array.export_data (this->file);
-  */
 }
 
 void

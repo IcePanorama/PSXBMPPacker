@@ -38,14 +38,10 @@ PixelData::export_data (std::ofstream &fptr) const
   this->export_pixel_data (fptr);
 }
 
-#include <format>
-#include <iostream>
-
 void
 PixelData::export_header (std::ofstream &fptr) const
 {
   uint16_t prefix = this->entry_id_ | ((1 << DataPack::FLAGS_TYPE_BIT) << 8);
-  std::cout << std::format ("{:04X}\n", prefix);
   write_int16_to_file (fptr, prefix);
 
   write_int16_to_file (fptr, this->width);
