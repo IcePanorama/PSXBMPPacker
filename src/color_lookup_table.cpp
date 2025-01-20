@@ -3,6 +3,7 @@
 #include "utils.hpp"
 
 #include <algorithm>
+#include <cassert>
 #include <cstdint>
 #include <numeric>
 #include <vector>
@@ -14,6 +15,7 @@ ColorLookupTable::ColorLookupTable (
                                  width (this->calculate_width ()),
                                  height (this->calculate_height ())
 {
+  assert (data.size () <= 16);
 }
 
 // TODO: expand to support more than just 4 bpp images.
