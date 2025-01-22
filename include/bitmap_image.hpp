@@ -47,8 +47,9 @@ public:
   get_pixel_array (void) const noexcept;
   uint32_t get_width (void) const noexcept;
   uint32_t get_height (void) const noexcept;
+  uint32_t get_size (void) const noexcept;
 
-  bool operator< (const BitmapImage &str) const;
+  bool operator< (const BitmapImage &str) const noexcept;
 };
 
 #endif /* _BITMAP_IMAGE_HPP_ */
