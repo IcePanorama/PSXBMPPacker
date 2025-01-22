@@ -102,18 +102,6 @@ BitmapImage::get_pixel_array (void) const noexcept
   return this->pixel_array;
 }
 
-uint32_t
-BitmapImage::get_width (void) const noexcept
-{
-  return this->width;
-}
-
-uint32_t
-BitmapImage::get_height (void) const noexcept
-{
-  return this->height;
-}
-
 bool
 BitmapImage::operator< (const BitmapImage &other) const noexcept
 {

@@ -41,13 +41,11 @@ public:
   BitmapImage (const std::string &filename);
 
   const std::string &get_filename (void) const noexcept;
+  uint32_t get_size (void) const noexcept;
   const std::unordered_map<Color, uint8_t, ColorHasher_s> &
   get_color_table (void) const noexcept;
   const std::vector<std::vector<uint8_t> > &
   get_pixel_array (void) const noexcept;
-  uint32_t get_width (void) const noexcept;
-  uint32_t get_height (void) const noexcept;
-  uint32_t get_size (void) const noexcept;
 
   bool operator< (const BitmapImage &str) const noexcept;
 };
