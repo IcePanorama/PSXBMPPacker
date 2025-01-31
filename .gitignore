@@ -6,6 +6,7 @@ build/*
 *.DAT
 .cache/*
 vgcore.*
+config.ini
 
 # Prerequisites
 *.d
